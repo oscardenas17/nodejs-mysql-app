@@ -27,13 +27,24 @@ app.set('view engine', '.hbs');
 
 //Middlewares
 app.use(morgan('dev'));
+//5
+app.use(express.urlencoded({extended:false}));
+app.use(express.json());
 
 //Variable global
+app.use((req, res , next) =>{
+    next();
+});
+
+
 
 // 3 Routes
 app.use(require('./routes'));
+app.use(require('./routes/authentication'));
+app.use('/links',require('./routes/links'));
 
 //Public
+app.use(express.static(path.join(__dirname,'public')));
 
 //Startin the server
 app.listen(app.get('port'), () => {
