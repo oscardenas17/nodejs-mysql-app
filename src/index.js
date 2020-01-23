@@ -2,12 +2,28 @@
 const express = require('express');
 const morgan = require('morgan');
 
+//4 Templates
+const exhbs = require('express-handlebars');
+const path = require('path');
+
+
 //inicializaciones
 const app = express();
 
 //settings
-//puerto
+// 3 puerto
 app.set('port', process.env.PORT || 4000);
+
+//4
+app.set('views',path.join(__dirname, 'views'))
+app.engine('.hbs', exhbs({
+    defaultLayout : 'main',
+    layoutsDir: path.join(app.get('views'), 'layouts'),
+    partialsDir: path.join(app.get('views'), 'partials'),
+    extname: '.hbs',
+    helpers: require('./lib/handlebars')
+}));
+app.set('view engine', '.hbs');
 
 //Middlewares
 app.use(morgan('dev'));
